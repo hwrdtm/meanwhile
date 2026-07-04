@@ -54,14 +54,19 @@ Authorization: Bearer <producer_token>
 Content-Type: application/json
 ```
 
+## Installation
+
+1. Add this marketplace in Claude: `/plugin marketplace add hwrdtm/meanwhile`
+2. Install the plugin: `/plugin install meanwhile-claude@meanwhile`
+3. Restart Claude.
+
 ## Verification
 
 1. Launch Meanwhile and confirm Broker Status is Running.
 2. Confirm the token file exists: `ls -l ~/.config/meanwhile/producer-token`
    (regenerate the token in the Integrations tab if missing).
-3. Install the `meanwhile-claude` plugin in Claude and restart Claude.
-4. Submit a Claude prompt or trigger a tool use.
-5. Open Meanwhile Diagnostics and confirm accepted events with state
+3. Submit a Claude prompt or trigger a tool use.
+4. Open Meanwhile Diagnostics and confirm accepted events with state
    transitions such as `idle -> pending`.
 
 If `UserPromptSubmit` never appears in Diagnostics, the hook layer is not
