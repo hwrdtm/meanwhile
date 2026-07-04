@@ -1,0 +1,24 @@
+{
+  "name": "meanwhile",
+  "description": "Meanwhile Claude Code plugins.",
+  "owner": {
+    "name": "Meanwhile"
+  },
+  "plugins": [
+    {
+      "name": "meanwhile-claude",
+      "displayName": "Meanwhile Claude",
+      "source": "./plugins/claude-desktop",
+      "description": "Signals the local Meanwhile broker from Claude lifecycle hooks.",
+      "author": {
+        "name": "Meanwhile"
+      },
+      "category": "productivity",
+      "tags": [
+        "hooks",
+        "waiting",
+        "macos"
+      ]
+    }
+  ]
+}

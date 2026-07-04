@@ -1,0 +1,24 @@
+{
+  "name": "meanwhile-claude",
+  "version": "0.1.0",
+  "description": "Claude Desktop hook integration for the local Meanwhile broker.",
+  "author": {
+    "name": "Meanwhile"
+  },
+  "userConfig": {
+    "broker_url": {
+      "type": "string",
+      "title": "Broker URL",
+      "description": "Broker base URL copied from the Meanwhile Integrations tab.",
+      "default": "http://127.0.0.1:47683",
+      "required": true
+    },
+    "producer_token": {
+      "type": "string",
+      "title": "Producer token",
+      "description": "Claude Desktop producer token copied from Meanwhile.",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}

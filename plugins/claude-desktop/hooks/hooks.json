@@ -1,0 +1,114 @@
+{
+  "description": "Claude Desktop lifecycle hooks that signal the local Meanwhile broker.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "UserPromptSubmit"
+            ],
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "PreToolUse"
+            ],
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "PostToolUse"
+            ],
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "PostToolUseFailure"
+            ],
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "PermissionRequest"
+            ],
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "Stop"
+            ],
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "StopFailure"
+            ],
+            "timeout": 2
+          }
+        ]
+      }
+    ]
+  }
+}
