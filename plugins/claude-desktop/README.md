@@ -11,6 +11,7 @@ claude-desktop/
     plugin.json
   hooks/
     hooks.json
+    sanitize-hook.js
     send-hook.sh
 ```
 
@@ -22,13 +23,18 @@ The hook helper resolves each value through a tiered fallback, first match wins:
 | --- | --- | --- |
 | 1. Claude plugin `userConfig` | `CLAUDE_PLUGIN_OPTION_BROKER_URL` | `CLAUDE_PLUGIN_OPTION_PRODUCER_TOKEN` |
 | 2. Environment variable | `MEANWHILE_BROKER_URL` | `MEANWHILE_PRODUCER_TOKEN` |
-| 3. Meanwhile-provisioned file | — | `${XDG_CONFIG_HOME:-~/.config}/meanwhile/producer-token` |
+| 3. Meanwhile-provisioned file | none | `${XDG_CONFIG_HOME:-~/.config}/meanwhile/producer-token` |
 | 4. Default | `http://127.0.0.1:47683` | none (hook exits silently) |
 
 Tier 3 is the primary path: Meanwhile writes the producer token to the
 well-known path above (mode 600) whenever it generates or regenerates the token,
 so installing the plugin is the only user action required. Regenerating the
 token in Meanwhile rewrites the file.
+
+Set `MEANWHILE_PRODUCER_TOKEN_FILE` to override the token file path. This is
+useful for isolated development profiles and tests. An explicit producer token
+in Claude plugin configuration remains available as an optional override, but
+is not required for normal installation.
 
 Hook calls are best-effort. If no token resolves or the broker is unavailable,
 hooks exit without blocking Claude Desktop.
@@ -42,12 +48,18 @@ hooks exit without blocking Claude Desktop.
 | `PostToolUse` | `heartbeat` |
 | `PostToolUseFailure` | `heartbeat` |
 | `PermissionRequest` | `needs_user` |
+| `Notification` (`permission_prompt`, `idle_prompt`, `elicitation_dialog`) | `needs_user` |
 | `Stop` | `completed` |
 | `StopFailure` | `completed` |
+| `SessionEnd` | `completed` |
 
-All hooks post raw Claude hook payloads to `/v1/adapters/claude/hooks`. The
-adapter maps each hook name to a canonical Meanwhile event, keeps only allowed
-metadata, and discards the raw hook body. Requests require:
+All hooks except `SessionEnd` run asynchronously so Claude does not wait for the
+local broker. `SessionEnd` stays synchronous so its final completion signal can
+finish before Claude exits the session.
+
+The helper constructs a new payload containing only `hook_event_name`,
+`session_id` when present, and a fixed Claude Desktop source identity. It posts
+that sanitized payload to `/v1/adapters/claude/hooks`. Requests require:
 
 ```text
 Authorization: Bearer <producer_token>
@@ -76,9 +88,9 @@ broker authentication.
 
 ## Privacy
 
-The hook helper forwards Claude's raw hook JSON to the local adapter endpoint.
-The broker adapter is the privacy boundary: it may use lifecycle fields such as
-hook name, session ID, tool name, duration, and error code, but must not persist
-prompt text, response text, tool input or output, file paths or contents, URLs,
-screenshots, clipboard data, window titles, conversation titles, or assistant
-messages.
+The hook helper extracts only `session_id` from Claude's input. It uses the
+stock macOS JavaScript runtime to build correctly escaped JSON in memory. It
+never writes the raw input to disk and never forwards it. Prompt text, response
+text, tool input or output, file paths or contents, URLs, screenshots, clipboard
+data, window titles, conversation titles, assistant messages, and all other
+hook fields are discarded inside the hook process.

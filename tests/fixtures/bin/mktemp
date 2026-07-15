@@ -1,0 +1,4 @@
+#!/bin/sh
+
+printf '%s\n' "send-hook.sh must not write hook input to a temporary file" >&2
+exit 97

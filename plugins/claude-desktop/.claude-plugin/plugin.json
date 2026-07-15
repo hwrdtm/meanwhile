@@ -1,6 +1,6 @@
 {
   "name": "meanwhile-claude",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Claude Desktop hook integration for the local Meanwhile broker.",
   "author": {
     "name": "Meanwhile"
@@ -16,9 +16,9 @@
     "producer_token": {
       "type": "string",
       "title": "Producer token",
-      "description": "Claude Desktop producer token copied from Meanwhile.",
+      "description": "Optional override for the token file provisioned by Meanwhile.",
       "sensitive": true,
-      "required": true
+      "required": false
     }
   }
 }

@@ -4,7 +4,7 @@ Producer integrations live here.
 
 Packages:
 
-- `claude-desktop/`: Claude Desktop plugin skeleton with hooks.
+- `claude-desktop/`: Claude Desktop lifecycle hook integration.
 
 Planned packages:
 

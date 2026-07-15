@@ -4,9 +4,13 @@ Meanwhile watches your AI coding agents so you don't have to. When an agent is
 busy working, you can switch away and do something else; Meanwhile brings you
 back when the agent needs your attention or finishes.
 
-This repository hosts the Meanwhile Claude Code plugins — the "producer" side of
+This repository hosts the Meanwhile Claude Code plugins - the "producer" side of
 the integration that signals a locally running Meanwhile broker from Claude
 lifecycle hooks.
+
+It is the source of truth for Claude hook installation and configuration. The
+Meanwhile macOS app owns the local broker and credentials, but it does not edit
+Claude settings or install hook scripts.
 
 ## Layout
 
@@ -38,8 +42,20 @@ plugins/
 4. Restart Claude, then submit a prompt or trigger a tool use.
 5. Open Meanwhile Diagnostics and confirm accepted events.
 
+The hook helper forwards only the lifecycle event name, session ID, and a fixed
+Claude Desktop source identity. Prompt content, tool data, paths, URLs, and the
+rest of Claude's hook payload never leave the hook process.
+
 See [`plugins/claude-desktop/README.md`](plugins/claude-desktop/README.md) for
 configuration details, hook mapping, and troubleshooting.
+
+## Development
+
+Run the complete plugin validation from the repository root:
+
+```sh
+tests/run.sh
+```
 
 ## License
 

@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+capture="${MEANWHILE_TEST_CAPTURE:?}"
+payload=""
+authorization=""
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --header)
+      shift
+      case "${1:-}" in
+        Authorization:*) authorization="$1" ;;
+      esac
+      ;;
+    --data-binary)
+      shift
+      case "${1:-}" in
+        @*) payload="$(cat "${1#@}")" ;;
+        *) payload="${1:-}" ;;
+      esac
+      ;;
+  esac
+  shift
+done
+
+printf '%s' "$payload" > "$capture"
+printf '%s' "$authorization" > "$capture.authorization"

@@ -11,7 +11,8 @@
               "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
               "UserPromptSubmit"
             ],
-            "timeout": 2
+            "timeout": 2,
+            "async": true
           }
         ]
       }
@@ -27,7 +28,8 @@
               "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
               "PreToolUse"
             ],
-            "timeout": 2
+            "timeout": 2,
+            "async": true
           }
         ]
       }
@@ -43,7 +45,8 @@
               "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
               "PostToolUse"
             ],
-            "timeout": 2
+            "timeout": 2,
+            "async": true
           }
         ]
       }
@@ -59,7 +62,8 @@
               "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
               "PostToolUseFailure"
             ],
-            "timeout": 2
+            "timeout": 2,
+            "async": true
           }
         ]
       }
@@ -75,7 +79,25 @@
               "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
               "PermissionRequest"
             ],
-            "timeout": 2
+            "timeout": 2,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt|idle_prompt|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "Notification"
+            ],
+            "timeout": 2,
+            "async": true
           }
         ]
       }
@@ -90,7 +112,8 @@
               "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
               "Stop"
             ],
-            "timeout": 2
+            "timeout": 2,
+            "async": true
           }
         ]
       }
@@ -104,6 +127,22 @@
             "args": [
               "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
               "StopFailure"
+            ],
+            "timeout": 2,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/send-hook.sh",
+              "SessionEnd"
             ],
             "timeout": 2
           }
